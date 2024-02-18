@@ -68,7 +68,7 @@ contract Voting {
         nextVoteId++;
     }
 
-    function vote(uint256 voteId, uint256 option) external isMember, canVote(voteId, option) {
+    function vote(uint256 voteId, uint256 option) external isMember canVote(voteId, option) {
         votes[voteId].votes[option] = votes[voteId].votes[option] + 1;
         votes[voteId].voted[msg.sender] = true;
         emit Voted(msg.sender, voteId, option, block.timestamp);
@@ -84,8 +84,12 @@ contract Voting {
         );
     }
 
-    function didVote(address member, uint256 voteId) public view returns (bool) {
-        return votes[voteId].voted[member];
+    function didVote(address member, uint256 voteId) 
+        public 
+        view 
+        returns (bool) 
+    {
+         return votes[voteId].voted[member];
     }
 
     
